@@ -1,0 +1,19 @@
+{
+  "name": "em-sdk",
+  "version": "0.1.0",
+  "description": "em-foundation software development kit",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "github:em-foundation/em-sdk",
+  "author": "Bob Frankel",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/em-foundation/em-sdk/issues"
+  },
+  "homepage": "https://github.com/em-foundation/em-sdk#readme",
+  "dependencies": {
+    "commander": "^11.1.0"
+  }
+}
