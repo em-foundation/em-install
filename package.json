@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "em-foundation software development kit",
   "scripts": {
-    "preinstall": "mkdir -p ./node_modules",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "github:em-foundation/em-sdk",
