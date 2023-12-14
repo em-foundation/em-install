@@ -49,13 +49,13 @@ const getSegger = async () => {
     ]
     const zipFolder = join(__dirname, `zips/segger-${seggerVersion}`)
     const zipFilename = join(zipFolder, 'linux-x64.zip')
-    // // download from segger
-    // mkdirSync(downloadsFoldername, { recursive: true });
-    // await downloadFile(seggerUrl, tarballFilepath);
-    // // decompress installer
-    // console.log(`Unzipping Installer\n... ${tarballFilepath}`)
-    // const untarredFiles = await decompress(tarballFilepath, downloadsFoldername)
-    // console.log(`... Decompressed ${untarredFiles.length} files`)
+    // download segger embedded studio installer tarball
+    mkdirSync(downloadsFoldername, { recursive: true });
+    await downloadFile(seggerUrl, tarballFilepath);
+    // decompress installer
+    console.log(`Unzipping Installer\n... ${tarballFilepath}`)
+    const untarredFiles = await decompress(tarballFilepath, downloadsFoldername)
+    console.log(`... Decompressed ${untarredFiles.length} files`)
     // install into tools folder
     writeFileSync(yesFilepath, 'yes\n')
     rmSync(toolsFoldername, { recursive: true, force: true })
