@@ -1,12 +1,17 @@
 # em-install
 Practice area for installation scripts
 
-## Installation
+## Create segger zip file for distribution
 
-See https://docs.openem.org/ for full documentation
-
+The script will:
+- download the revision specified of Segger's Embedded Studio (defaults to 630)
+- unzip the installer
+- run the installer to install into a temp folder
+- strip out all the unneeded files and folders
+- create the linux-x64.zip file for the em-sdk distribution
 
 ```bash
-mkdir -p $HOME/.em-sdk/node_modules
-npm install github:em-foundation/em-sdk --prefix $HOME/.em-sdk
+cd em-install
+export SEGGER_EMBEDDED_STUDIO_VERSION=630
+npm start
 ```
