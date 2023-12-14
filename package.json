@@ -1,6 +1,6 @@
 {
   "name": "em-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "em-foundation software development kit",
   "scripts": {
     "start": "node get-resources.js",
@@ -16,7 +16,6 @@
   "homepage": "https://github.com/em-foundation/em-sdk#readme",
   "dependencies": {
     "axios": "^1.6.2",
-    "commander": "^11.1.0",
     "decompress": "^4.2.1"
   }
 }
