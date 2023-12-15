@@ -12,6 +12,8 @@ The script will:
 
 ```bash
 cd em-install
-export SEGGER_EMBEDDED_STUDIO_VERSION=630
+# Uncomment the below to set the version number -- the commented out versions are the default values
+# export SEGGER_EMBEDDED_STUDIO_VERSION=630
+# export GCC_VERSION=10.3.1
 npm start
 ```
