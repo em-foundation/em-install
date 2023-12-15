@@ -4,7 +4,7 @@ const { createWriteStream, mkdirSync, rmSync, statSync, writeFileSync, readdirSy
 const { join, relative } = require('path')
 const decompress = require('decompress');
 
-const gccVersion = process.env.GCC_VERSION || '13.2.1';
+const gccVersion = process.env.GCC_VERSION || '10.3.1';
 const seggerVersion = process.env.SEGGER_EMBEDDED_STUDIO_VERSION || '630';
 
 downloadFile = async (fileUrl, outputLocationPath) => {
@@ -52,7 +52,7 @@ const getSegger = async () => {
     const zipFilename = join(zipFolder, 'linux-x64.zip')
     const toolsToZipFilename = join(toolsToZipFolder, 'linux-x64.zip')
 
-    console.log('\nCREATING SEGGER ZIP FILE\n')
+    console.log(`\nCREATING SEGGER ${seggerVersion} ZIP FILE\n`)
     // download segger embedded studio installer tarball
     mkdirSync(downloadsFoldername, { recursive: true });
     await downloadFile(seggerUrl, tarballFilepath);
@@ -101,11 +101,21 @@ const getSegger = async () => {
 const getGcc = async () => {
     const gccVersionSplit = gccVersion.split('.')
     const gccRelVersion = `${gccVersionSplit[0]}.${gccVersionSplit[1]}.rel${gccVersionSplit[2]}`
+    const majorVersion = parseInt(gccVersionSplit[0])
     const downloadsFoldername = relative('', join(__dirname, 'downloads/gcc'))
-    const tarballFilename = `arm-gnu-toolchain-${gccRelVersion}-x86_64-arm-none-eabi.tar.xz`
-    const gccUrl = `https://developer.arm.com/-/media/Files/downloads/gnu/${gccRelVersion}/binrel/${tarballFilename}`
+    if (majorVersion < 11 && gccVersion != '10.3.1') {
+        throw new Error("Only v10.3.1 is supported for old versions")
+    }
+    const tarballFilename = majorVersion >= 11
+        ? `arm-gnu-toolchain-${gccRelVersion}-x86_64-arm-none-eabi.tar.xz`
+        : `gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2`
+    const gccUrl = majorVersion >= 11
+        ? `https://developer.arm.com/-/media/Files/downloads/gnu/${gccRelVersion}/binrel/${tarballFilename}`
+        : `https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/${tarballFilename}`
+    const gccFoldername = majorVersion >= 11
+        ? relative('', join(downloadsFoldername, `arm-gnu-toolchain-${gccRelVersion.replace('rel', 'Rel')}-x86_64-arm-none-eabi`))
+        : relative('', join(downloadsFoldername, `gcc-arm-none-eabi-10.3-2021.10`))
     const tarballFilepath = join(downloadsFoldername, tarballFilename)
-    const gccFoldername = relative('', join(downloadsFoldername, `arm-gnu-toolchain-${gccRelVersion.replace('rel', 'Rel')}-x86_64-arm-none-eabi`))
     const foldersToDelete = [
         'share/doc', 
         'share/gcc-arm-none-eabi/samples', 
@@ -123,7 +133,7 @@ const getGcc = async () => {
     const zipFilename = join(zipFolder, 'linux-x64.zip')
     const gccToZipFilename = join(gccToZipFolder, 'linux-x64.zip')
 
-    console.log('\nCREATING GCC ZIP FILE\n')
+    console.log(`\nCREATING GCC ${gccVersion} ZIP FILE\n`)
 
     // download tarball from arm/gcc
     mkdirSync(downloadsFoldername, { recursive: true });
